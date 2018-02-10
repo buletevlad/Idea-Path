@@ -1,0 +1,23 @@
+﻿table {
+background-color: black;
+border-color:grey;
+}
+
+tr {
+   
+    border-color: grey;
+    color:white;
+}
+td {
+    border-color: grey;
+}
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #080808;
+}
+
+.table-hover > tbody > tr:hover {
+    background-color: #282828;
+}
+h2 {
+color: white;
+}
