@@ -4,12 +4,12 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DailyDoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DailyDoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Idea">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TaskId" Type="int" Nullable="false" />
           <Property Name="StatusId" Type="int" Nullable="false" />
           <Property Name="TypeId" Type="int" Nullable="false" />
@@ -19,7 +19,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="StatusId" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
@@ -29,7 +29,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
@@ -46,7 +46,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProjectId" Type="int" Nullable="false" />
           <Property Name="StatusId" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
@@ -57,7 +57,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Label" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <Association Name="FK_Line_Status">
@@ -164,51 +164,82 @@
             <End Role="Task" EntitySet="Task" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DailyDoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DailyDoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Ideas" EntityType="DailyDoModel.Idea" />
+          <EntitySet Name="Projects" EntityType="DailyDoModel.Project" />
+          <EntitySet Name="Status" EntityType="DailyDoModel.Status" />
+          <EntitySet Name="sysdiagrams" EntityType="DailyDoModel.sysdiagram" />
+          <EntitySet Name="Tasks" EntityType="DailyDoModel.Task" />
+          <EntitySet Name="Types" EntityType="DailyDoModel.Type" />
+          <AssociationSet Name="FK_Line_Status" Association="DailyDoModel.FK_Line_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Idea" EntitySet="Ideas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Line_Task" Association="DailyDoModel.FK_Line_Task">
+            <End Role="Task" EntitySet="Tasks" />
+            <End Role="Idea" EntitySet="Ideas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Line_Type" Association="DailyDoModel.FK_Line_Type">
+            <End Role="Type" EntitySet="Types" />
+            <End Role="Idea" EntitySet="Ideas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_Status" Association="DailyDoModel.FK_Project_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Project" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_Project" Association="DailyDoModel.FK_Task_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_Status" Association="DailyDoModel.FK_Task_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Idea">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TaskId" Type="Int32" Nullable="false" />
           <Property Name="StatusId" Type="Int32" Nullable="false" />
           <Property Name="TypeId" Type="Int32" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Status" Relationship="Self.FK_Line_Status" FromRole="Idea" ToRole="Status" />
-          <NavigationProperty Name="Task" Relationship="Self.FK_Line_Task" FromRole="Idea" ToRole="Task" />
-          <NavigationProperty Name="Type" Relationship="Self.FK_Line_Type" FromRole="Idea" ToRole="Type" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Status" Relationship="DailyDoModel.FK_Line_Status" FromRole="Idea" ToRole="Status" />
+          <NavigationProperty Name="Task" Relationship="DailyDoModel.FK_Line_Task" FromRole="Idea" ToRole="Task" />
+          <NavigationProperty Name="Type" Relationship="DailyDoModel.FK_Line_Type" FromRole="Idea" ToRole="Type" />
         </EntityType>
         <EntityType Name="Project">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="StatusId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="UpdatedDate" Type="DateTime" Nullable="false" Precision="7" />
-          <NavigationProperty Name="Status" Relationship="Self.FK_Project_Status" FromRole="Project" ToRole="Status" />
-          <NavigationProperty Name="Tasks" Relationship="Self.FK_Task_Project" FromRole="Project" ToRole="Task" />
+          <NavigationProperty Name="Status" Relationship="DailyDoModel.FK_Project_Status" FromRole="Project" ToRole="Status" />
+          <NavigationProperty Name="Tasks" Relationship="DailyDoModel.FK_Task_Project" FromRole="Project" ToRole="Task" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Ideas" Relationship="Self.FK_Line_Status" FromRole="Status" ToRole="Idea" />
-          <NavigationProperty Name="Projects" Relationship="Self.FK_Project_Status" FromRole="Status" ToRole="Project" />
-          <NavigationProperty Name="Tasks" Relationship="Self.FK_Task_Status" FromRole="Status" ToRole="Task" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Ideas" Relationship="DailyDoModel.FK_Line_Status" FromRole="Status" ToRole="Idea" />
+          <NavigationProperty Name="Projects" Relationship="DailyDoModel.FK_Project_Status" FromRole="Status" ToRole="Project" />
+          <NavigationProperty Name="Tasks" Relationship="DailyDoModel.FK_Task_Status" FromRole="Status" ToRole="Task" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
             <PropertyRef Name="diagram_id" />
           </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="principal_id" Type="Int32" Nullable="false" />
           <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="version" Type="Int32" />
@@ -218,27 +249,27 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ProjectId" Type="Int32" Nullable="false" />
           <Property Name="StatusId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="UpdatedDate" Type="DateTime" Nullable="false" Precision="7" />
-          <NavigationProperty Name="Ideas" Relationship="Self.FK_Line_Task" FromRole="Task" ToRole="Idea" />
-          <NavigationProperty Name="Project" Relationship="Self.FK_Task_Project" FromRole="Task" ToRole="Project" />
-          <NavigationProperty Name="Status" Relationship="Self.FK_Task_Status" FromRole="Task" ToRole="Status" />
+          <NavigationProperty Name="Ideas" Relationship="DailyDoModel.FK_Line_Task" FromRole="Task" ToRole="Idea" />
+          <NavigationProperty Name="Project" Relationship="DailyDoModel.FK_Task_Project" FromRole="Task" ToRole="Project" />
+          <NavigationProperty Name="Status" Relationship="DailyDoModel.FK_Task_Status" FromRole="Task" ToRole="Status" />
         </EntityType>
         <EntityType Name="Type">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Label" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Ideas" Relationship="Self.FK_Line_Type" FromRole="Type" ToRole="Idea" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Label" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Ideas" Relationship="DailyDoModel.FK_Line_Type" FromRole="Type" ToRole="Idea" />
         </EntityType>
         <Association Name="FK_Line_Status">
-          <End Role="Status" Type="Self.Status" Multiplicity="1" />
-          <End Role="Idea" Type="Self.Idea" Multiplicity="*" />
+          <End Type="DailyDoModel.Status" Role="Status" Multiplicity="1" />
+          <End Type="DailyDoModel.Idea" Role="Idea" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Status">
               <PropertyRef Name="Id" />
@@ -249,8 +280,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Line_Task">
-          <End Role="Task" Type="Self.Task" Multiplicity="1" />
-          <End Role="Idea" Type="Self.Idea" Multiplicity="*" />
+          <End Type="DailyDoModel.Task" Role="Task" Multiplicity="1" />
+          <End Type="DailyDoModel.Idea" Role="Idea" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Task">
               <PropertyRef Name="Id" />
@@ -261,8 +292,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Line_Type">
-          <End Role="Type" Type="Self.Type" Multiplicity="1" />
-          <End Role="Idea" Type="Self.Idea" Multiplicity="*" />
+          <End Type="DailyDoModel.Type" Role="Type" Multiplicity="1" />
+          <End Type="DailyDoModel.Idea" Role="Idea" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Type">
               <PropertyRef Name="Id" />
@@ -273,8 +304,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Project_Status">
-          <End Role="Status" Type="Self.Status" Multiplicity="1" />
-          <End Role="Project" Type="Self.Project" Multiplicity="*" />
+          <End Type="DailyDoModel.Status" Role="Status" Multiplicity="1" />
+          <End Type="DailyDoModel.Project" Role="Project" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Status">
               <PropertyRef Name="Id" />
@@ -285,8 +316,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Task_Project">
-          <End Role="Project" Type="Self.Project" Multiplicity="1" />
-          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <End Type="DailyDoModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="DailyDoModel.Task" Role="Task" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Project">
               <PropertyRef Name="Id" />
@@ -297,8 +328,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Task_Status">
-          <End Role="Status" Type="Self.Status" Multiplicity="1" />
-          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <End Type="DailyDoModel.Status" Role="Status" Multiplicity="1" />
+          <End Type="DailyDoModel.Task" Role="Task" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Status">
               <PropertyRef Name="Id" />
@@ -308,38 +339,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="DailyDoEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Ideas" EntityType="Self.Idea" />
-          <EntitySet Name="Projects" EntityType="Self.Project" />
-          <EntitySet Name="Status" EntityType="Self.Status" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
-          <EntitySet Name="Tasks" EntityType="Self.Task" />
-          <EntitySet Name="Types" EntityType="Self.Type" />
-          <AssociationSet Name="FK_Line_Status" Association="Self.FK_Line_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="Idea" EntitySet="Ideas" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Line_Task" Association="Self.FK_Line_Task">
-            <End Role="Task" EntitySet="Tasks" />
-            <End Role="Idea" EntitySet="Ideas" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Line_Type" Association="Self.FK_Line_Type">
-            <End Role="Type" EntitySet="Types" />
-            <End Role="Idea" EntitySet="Ideas" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Project_Status" Association="Self.FK_Project_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="Project" EntitySet="Projects" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Task_Project" Association="Self.FK_Task_Project">
-            <End Role="Project" EntitySet="Projects" />
-            <End Role="Task" EntitySet="Tasks" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Task_Status" Association="Self.FK_Task_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="Task" EntitySet="Tasks" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -349,61 +348,61 @@
           <EntitySetMapping Name="Ideas">
             <EntityTypeMapping TypeName="DailyDoModel.Idea">
               <MappingFragment StoreEntitySet="Idea">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
                 <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Projects">
             <EntityTypeMapping TypeName="DailyDoModel.Project">
               <MappingFragment StoreEntitySet="Project">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Status">
             <EntityTypeMapping TypeName="DailyDoModel.Status">
               <MappingFragment StoreEntitySet="Status">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="DailyDoModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tasks">
             <EntityTypeMapping TypeName="DailyDoModel.Task">
               <MappingFragment StoreEntitySet="Task">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Types">
             <EntityTypeMapping TypeName="DailyDoModel.Type">
               <MappingFragment StoreEntitySet="Type">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Label" ColumnName="Label" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

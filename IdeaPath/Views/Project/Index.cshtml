@@ -1,0 +1,60 @@
+﻿@using IdeaPath.Models;
+@model List<Project>
+
+<div >
+    <h2>
+        Projects
+        <a href="@Url.Action("Create","Project")" class="btn btn-success" style="float:right; padding: 15px 30px; font-size: 18px;">
+            Add New Project
+        </a>
+    </h2>
+</div>
+<br />
+
+<table class="table table-responsive table-striped table-hover">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            Created Date
+        </th>
+        <th>
+            Last Update
+        </th>
+        <th >
+            Actions
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                
+                    @Html.DisplayFor(modelItem => item.Name)
+                
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status.Name)
+            </td>
+            <td>
+                @item.CreatedDate.ToString("dd.MM.yyyy")
+            </td>
+            <td>
+                @item.UpdatedDate.ToString("dd.MM.yyyy | HH:mm")
+            </td>
+            <td >
+                <a class="btn sm btn-primary" href="@Url.Action("Details", "Project", new { id = item.Id})">
+                    Details
+                </a>
+                <a class="btn sm btn-danger" href="@Url.Action("Delete", "Project", new { id = item.Id})">
+                    Delete
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>
