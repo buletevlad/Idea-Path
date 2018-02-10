@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IdeaPath.BLL
+namespace IdeaPath.BEL.DTOModels
 {
-    public class Class1
+    public class TypeDTO
     {
+        public int Id { get; set; }
+        public string Label { get; set; }
     }
 }

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{86548942-1513-42E0-A5F6-79D110AC8EC6}</ProjectGuid>
+    <ProjectGuid>{A3F56DAD-C919-4365-958D-F4DD0346B817}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IdeaPath.BLL</RootNamespace>
-    <AssemblyName>IdeaPath.BLL</AssemblyName>
+    <RootNamespace>IdeaPath.BEL</RootNamespace>
+    <AssemblyName>IdeaPath.BEL</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,20 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
-    <Reference Include="Enum.Performance.Library, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Enum.Performance.Library.1.1.0\lib\net45\Enum.Performance.Library.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -53,29 +40,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Services\BaseService.cs" />
-    <Compile Include="Services\DatabaseService.cs" />
+    <Compile Include="DTOModels\IdeaDTO.cs" />
+    <Compile Include="DTOModels\ProjectDTO.cs" />
+    <Compile Include="DTOModels\StatusDTO.cs" />
+    <Compile Include="DTOModels\TaskDTO.cs" />
+    <Compile Include="DTOModels\TypeDTO.cs" />
+    <Compile Include="Enums\Enums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ProjectService.cs" />
-    <Compile Include="Services\TaskService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IdeaPath.Api.Client\IdeaPath.Api.Client.csproj">
-      <Project>{01b375ae-d042-4971-b99d-4dc91c60f1a3}</Project>
-      <Name>IdeaPath.Api.Client</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IdeaPath.BEL\IdeaPath.BEL.csproj">
-      <Project>{a3f56dad-c919-4365-958d-f4dd0346b817}</Project>
-      <Name>IdeaPath.BEL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\IdeaPath.DAL\IdeaPath.DAL.csproj">
-      <Project>{561AAB8A-62DF-4270-940C-818144D8A42B}</Project>
+      <Project>{561aab8a-62df-4270-940c-818144d8a42b}</Project>
       <Name>IdeaPath.DAL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
+    <Folder Include="Interfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
